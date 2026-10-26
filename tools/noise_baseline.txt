@@ -3,6 +3,7 @@ goto 0
 control_variables 4
 sub_functions 0
 unk_names 0
+rom_names 0
 unk_fields 8
 register_names 0
 temp_names 0
