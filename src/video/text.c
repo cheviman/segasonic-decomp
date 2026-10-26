@@ -3,7 +3,7 @@
  *    Description: text: the text layer's font, printing and erasing text, lines, fractions and digits, and the strings drawn with sprites
  *    Version:     0.1.0
  *    Created:     12-10-2026
- *    Modified:    23-10-2026
+ *    Modified:    25-10-2026
  *    Author:      Sebastian Toyos
  *
  *    SegaSonic The Hedgehog (arcade, Sega System 32): the game's V60 program decompiled into C by
@@ -175,7 +175,7 @@ void load_text_font(uint32_t *p_pixels, uint32_t *p_color_index)
 	uint32_t dest = 0, dest_end = 0, ignored = 0, ignored_2 = 0, ignored_3 = 0, source = 0, source_end = 0;
 
 	mem_write16(video_text_control, 0x1F7u);
-	move_string(text_font_ADDRESS, 0x9A0u, VIDEO_RAM + 0x1C000u, 0x9A0u, 2u, 0u, 0u, fill_value, &dest_end, &source_end);
+	move_string(text_font_ADDRESS, 0x9A0u, VIDEO_RAM + 0x1C000u, 0x9A0u, 2u, 0u, 0u, 0u, &dest_end, &source_end);
 	source = source_end;
 	dest = dest_end;
 	count = 0x5Bu;

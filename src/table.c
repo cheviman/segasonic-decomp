@@ -3,7 +3,7 @@
  *    Description: the registers the whole program shares, the code calls through memory slots reach (by address), and the reset entry
  *    Version:     0.1.0
  *    Created:     12-10-2026
- *    Modified:    22-10-2026
+ *    Modified:    25-10-2026
  *    Author:      Sebastian Toyos
  *
  *    SegaSonic The Hedgehog (arcade, Sega System 32): the game's V60 program decompiled into C by
@@ -12,6 +12,11 @@
 #include "game.h"
 
 uint32_t r14, current_player, current_object, free_objects, first_object, object_cursor, last_object, fill_value, stack_pointer = 0x20FF00u;
+
+/* the same, for the runtime to keep a copy for each of the game's tasks */
+uint32_t *const game_context[] = { &r14, &current_player, &current_object, &free_objects, &first_object, &object_cursor, &last_object, &fill_value, &stack_pointer };
+const uint8_t game_context_registers[] = { 14, 18, 20, 21, 22, 23, 24, 26, 32 };
+const size_t game_context_count = 9;
 
 /* How call_code() runs metal_wall_rise from a slot that holds its address: with 0 for what it takes, and
    what it hands back dropped. */
@@ -60,7 +65,6 @@ static void call_090161(void)
 /* the code calls through memory slots and interrupts can reach, by address */
 const game_code_entry game_code[] =
 {
-	{ 0x000000u, boot },
 	{ 0x001664u, cleared_banner_wait },
 	{ 0x001674u, stage_clear_banner_reveal },
 	{ 0x0016B6u, stage_clear_banner_hold },
@@ -634,7 +638,7 @@ const game_code_entry game_code[] =
 	{ 0x0FF59Cu, irq_timer1 },
 };
 
-const size_t game_code_count = 572;
+const size_t game_code_count = 571;
 
 /* the code at the reset vector */
 void game_entry(void)

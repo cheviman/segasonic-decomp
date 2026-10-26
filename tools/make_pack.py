@@ -37,6 +37,7 @@ from pathlib import Path
 TOOLS = Path(__file__).resolve().parent
 ROOT = TOOLS.parent
 sys.path.insert(0, str(TOOLS))
+sys.path.insert(0, str(TOOLS / "core"))
 sys.path.insert(0, str(ROOT))
 import asset_formats  # noqa: E402
 import data_formats  # noqa: E402

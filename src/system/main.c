@@ -3,7 +3,7 @@
  *    Description: the machine's main program: power-on and boot, the frame loop, the attract mode and the system modes, the frame wait and the controls, the interrupt handlers, the reset vector
  *    Version:     0.1.0
  *    Created:     12-10-2026
- *    Modified:    23-10-2026
+ *    Modified:    25-10-2026
  *    Author:      Sebastian Toyos
  *
  *    SegaSonic The Hedgehog (arcade, Sega System 32): the game's V60 program decompiled into C by
@@ -1121,7 +1121,7 @@ void run_vblank_copies(uint32_t *p_source, uint32_t *p_dest, uint32_t *p_copies_
 			copy_entry += 2u;
 			for (;;)
 			{
-				move_string(*p_source, copy_halfwords, dest, copy_halfwords, 2u, 0u, 0u, fill_value, &dest_end, &ignored);
+				move_string(*p_source, copy_halfwords, dest, copy_halfwords, 2u, 0u, 0u, 0u, &dest_end, &ignored);
 				repeats_before = repeats_left;
 				repeats_left = (uint8_t)(repeats_before - 1u);
 				if ((int8_t)repeats_before <= 1)

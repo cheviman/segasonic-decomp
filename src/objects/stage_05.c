@@ -3,7 +3,7 @@
  *    Description: stage 5's objects: the exit door, the floor patch, the bubbles, the spiked press, the cage
  *    Version:     0.1.0
  *    Created:     12-10-2026
- *    Modified:    23-10-2026
+ *    Modified:    25-10-2026
  *    Author:      Sebastian Toyos
  *
  *    SegaSonic The Hedgehog (arcade, Sega System 32): the game's V60 program decompiled into C by

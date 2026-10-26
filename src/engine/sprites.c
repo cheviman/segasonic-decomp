@@ -3,7 +3,7 @@
  *    Description: animation and the sprite list: animation steps (frames, flips, moves, offsets, multi-part sprites), part palette cycles, the depth buckets, build_sprite_list and the buffer swap at VBLANK
  *    Version:     0.1.0
  *    Created:     12-10-2026
- *    Modified:    23-10-2026
+ *    Modified:    25-10-2026
  *    Author:      Sebastian Toyos
  *
  *    SegaSonic The Hedgehog (arcade, Sega System 32): the game's V60 program decompiled into C by
@@ -559,7 +559,7 @@ void init_sprite_hardware(uint32_t *p_end_mark, uint32_t *p_source)
 		control_init++;
 		control_cursor += 2u;
 	} while (registers_left != 0u);
-	move_string(sprite_list_header_ADDRESS, 0x10u, 0x400000u, 0x10u, 2u, 0u, 0u, fill_value, &dest_end, &ignored);
+	move_string(sprite_list_header_ADDRESS, 0x10u, 0x400000u, 0x10u, 2u, 0u, 0u, 0u, &dest_end, &ignored);
 	list_start = dest_end;
 	sprite_jump_init = 0xA400u;
 	sprite_buffer_flip = 0u;

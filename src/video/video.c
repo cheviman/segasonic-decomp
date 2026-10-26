@@ -3,7 +3,7 @@
  *    Description: the board's video: the video registers and the screen mode, block copies and fills, palette RAM and its copies at VBLANK, the VRAM scripts that build the tilemaps
  *    Version:     0.1.0
  *    Created:     12-10-2026
- *    Modified:    23-10-2026
+ *    Modified:    25-10-2026
  *    Author:      Sebastian Toyos
  *
  *    SegaSonic The Hedgehog (arcade, Sega System 32): the game's V60 program decompiled into C by
@@ -815,7 +815,7 @@ void copy_palette_block(uint32_t size, uint32_t *p_source, uint32_t *p_dest)
 	uint32_t dest_end = 0, source_end = 0;
 
 	size = size >> 1;
-	move_string(*p_source, size, *p_dest, size, 2u, 0u, 0u, fill_value, &dest_end, &source_end);
+	move_string(*p_source, size, *p_dest, size, 2u, 0u, 0u, 0u, &dest_end, &source_end);
 	*p_source = source_end;
 	*p_dest = dest_end;
 }
@@ -837,7 +837,7 @@ void repeat_palette_block(uint32_t size, uint32_t *p_source, uint32_t *p_dest, u
 		repeat_counts += 2u;
 		do
 		{
-			move_string(source, 0x10u, *p_dest, 0x10u, 2u, 0u, 0u, fill_value, &dest_end, &source_end);
+			move_string(source, 0x10u, *p_dest, 0x10u, 2u, 0u, 0u, 0u, &dest_end, &source_end);
 			*p_dest = dest_end;
 			repeats_left--;
 		} while (repeats_left != 0u);

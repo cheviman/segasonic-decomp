@@ -39,6 +39,7 @@ from pathlib import Path
 TOOLS = Path(__file__).resolve().parent
 ROOT = TOOLS.parent
 sys.path.insert(0, str(TOOLS))
+sys.path.insert(0, str(TOOLS / "core"))
 import disassemble  # noqa: E402
 import sonic_rom  # noqa: E402
 from v60 import disassembler as dis  # noqa: E402

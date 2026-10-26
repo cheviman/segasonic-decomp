@@ -49,7 +49,10 @@ decompiled game plays the scenarios of <code>tests/controls/</code>.</sub></p>
       region warning and runs the attract mode for 10 minutes of game time
 - [x] V60 to C translation (the scaffold, `tools/recompile.py`): the game runs as native C, and its
       work RAM, video RAM, sprite RAM, palette and mixer match the reference run at the end of every frame
-- [x] Decompiler (`tools/decompile.py`): one C function per original function, with no CPU left in it:
+- [x] Decompiler (`tools/decompile.py`, which runs [arcade-decomp](https://github.com/cheviman/arcade-decomp),
+      the decompiler and analysis tools this game shares with
+      [outrunners-decomp](https://github.com/cheviman/outrunners-decomp), in `tools/core/`): one C function
+      per original function, with no CPU left in it:
       registers become named parameters, results and typed local variables, the stack and the condition
       flags are gone, branches become `if`/`while`/`do`/`switch` with `||` and `&&`, a jump through a
       table of code becomes a `switch` on the index, and the game's variables, tables, structures
@@ -119,6 +122,15 @@ Tools on Windows) and, for the game's window, the SDL2 development files: on Win
 `SDL2-devel-2.x.x-VC.zip` from [SDL's releases](https://github.com/libsdl-org/SDL/releases) into
 `build/downloads/sdl2/` (or point `SDL2_DIR` at it); elsewhere, the system's package (`libsdl2-dev`).
 Without SDL2 only the headless builds are made.
+
+The decompiler, the analysis tools and the asset formats are a project of their own,
+[arcade-decomp](https://github.com/cheviman/arcade-decomp), which this repository keeps in `tools/core/` as
+a git submodule: clone it with the submodule (`git submodule update --init` in a clone made without it).
+The game builds without it; extracting the assets and the decompiler need it:
+
+```bash
+git clone --recursive https://github.com/cheviman/segasonic-decomp
+```
 
 1. Put your MAME `sonic.zip`, or the files inside it, in `rom/`, and check it:
 
@@ -206,8 +218,12 @@ settings and bookkeeping (the EEPROM) are kept in `sonic.eeprom`, there too.
 
 ### Changing the decompilation
 
-`src/` is written by the decompiler from your ROM and `symbols.txt`. After changing either of them, or
-the decompiler, write it again and check it:
+`src/` is written by the decompiler from your ROM and `symbols.txt`. The decompiler is arcade-decomp's,
+in `tools/core/`: what is SegaSonic's (its structures, the registers its program shares, its sound chip)
+is in `tools/game_profile.py`, and a change to the decompiler itself goes to arcade-decomp, checked on
+both games, and comes here as a newer commit of the submodule
+(`git submodule update --remote tools/core`). After changing your ROM, `symbols.txt` or the decompiler,
+write the C again and check it:
 
 ```bash
 python tools/decompile.py
@@ -247,7 +263,7 @@ Other tools:
   `check_scenarios.py --translated` checks it.
 - `tools/coverage.py` classifies every byte of the program ROM and lists what is still unexplained.
 - `tools/check_structure.py OUT_DIR [--sound]` decompiles into `OUT_DIR` and checks that the C's `if`,
-  loops, `switch` and control variables (`tools/decompiler/structure.py` and `gotos.py`) do what the
+  loops, `switch` and control variables (`tools/core/decompiler/structure.py` and `gotos.py`) do what the
   program's jumps do: it runs every function's blocks and its C on the same made-up outcomes of its tests
   and compares the blocks each runs, the code no scenario reaches too.
 - `tools/noise_report.py [--save]` counts what is left of the CPU and of the decompiler in the C (gotos,
@@ -270,7 +286,7 @@ Other tools:
 - `s32ref --sound-hashes FILE`, `--sound-log FILE` and `--sound-wav FILE` run the sound board too, on
   MAME's Z80 and RF5C68 and ymfm's YM3438: per frame, a hash of the samples and of the sound board's
   memories; every write to the sound chips; everything mixed into a WAV file.
-- `tools/z80/disassembler.py` decodes the sound program; `tools/reference/compare_z80_with_mame.py`
+- `tools/core/z80/disassembler.py` decodes the sound program; `tools/reference/compare_z80_with_mame.py`
   checks it against MAME's Z80 disassembler at every byte.
 
 ## Layout
@@ -315,24 +331,27 @@ runtime/src/extract.c   the first run: the player's ROM set (rom_set.c: a .zip, 
                         (make_pack.py --layout writes it: positions only)
 tools/bisect_code.py    finds the bytes of the code a scenario still reads as data (assets.json's
                         read_as_data takes them), against the reference at a frame
-tools/asset_formats.py  the board's data formats to standard files (PNG, WAV) and back
-tools/data_formats.py   the program's and the sound program's data as files and back, cut where
-                        symbols.txt and sound_symbols.txt name a place, the code left out;
-                        tools/formats/ holds a module a family (palettes, scripts, animations, stages,
-                        texts and the rest; the sound driver's tables and the music, as MIDI files)
+tools/core/             arcade-decomp, the decompiler and analysis tools shared with outrunners-decomp (a
+                        git submodule; tools/game_profile.py tells it about SegaSonic, and tools/'s scripts
+                        of the same names run its): v60/ (NEC V60 decoder and C translation of each
+                        instruction), z80/ (Zilog Z80 decoder, analysis, lifting and timing: the sound
+                        program), disassemble.py (recursive disassembler, listing and analysis report),
+                        coverage.py (byte map of the program ROM), recompile.py (splits the program into
+                        functions and translates them to C: the scaffold), decompile.py (decompiles the
+                        program into readable C; decompiler/: lifting to IR, stack, data flow and
+                        signatures, conditions, expressions, structure and the control variables that
+                        take the gotos out, memory and pointer types, variables, the C printer),
+                        decompile_sound.py (the sound program, with the same decompiler set up for the
+                        Z80), check_structure.py, noise_report.py, asset_formats.py (the board's data
+                        formats to PNG and WAV and back) and data_formats.py (the data as files and back,
+                        cut where symbols.txt and sound_symbols.txt name a place, the code left out)
+tools/game_profile.py   what the core needs to know of SegaSonic: its ROM set (sonic_rom.py), its
+                        structures, the registers the program shares, its board's sound chip
+tools/formats/          the data formats, a module a family (palettes, scripts, animations, stages, texts
+                        and the rest; the sound driver's tables and the music, as MIDI files)
 tools/palette_census.py runs the scenarios with the sprite and tile censuses on (sonic_game_headless
                         --sprite-census, --tile-census) and finds each frame's and tile's palette in the
                         program ROM: writes sprite_palettes.json and tile_palettes.json
-tools/v60/              NEC V60 instruction decoder and C translation of each instruction
-tools/z80/              Zilog Z80 instruction decoder, analysis, lifting and timing (the sound program)
-tools/disassemble.py    recursive disassembler, listing and analysis report
-tools/coverage.py       byte map of the program ROM: code, data, fill and what is still unknown
-tools/recompile.py      splits the program into functions; translates them to C (the scaffold)
-tools/decompile.py      decompiles the program into readable C (tools/decompiler/: lifting to IR,
-                        stack, data flow and signatures, conditions, expressions, structure and the
-                        control variables that take the gotos out, memory and pointer types, variables,
-                        the C printer)
-tools/decompile_sound.py  decompiles the sound program with the same decompiler, set up for the Z80
 tools/check_scenarios.py  runs the control scripts on the reference and on the decompiled game
 tools/check_structure.py  checks that the C's control flow runs what the program's jumps run
 tools/noise_report.py   counts the leftovers in the C against tools/noise_baseline.txt
@@ -550,7 +569,7 @@ of them can go without the C doing something the original does not:
   comments written for this project. No ROM contents (graphics, sound, data tables, level data) and no
   extracted assets are distributed by this project; they come from your own ROM. The screenshots in
   `docs/screenshots/` show the game running from this code.
-- `runtime/`, `tools/v60/disassembler.py` and `tools/z80/disassembler.py` follow the behavior of MAME
+- `runtime/`, `tools/core/v60/disassembler.py` and `tools/core/z80/disassembler.py` follow the behavior of MAME
   source files and, for the YM3438, of ymfm, and `tools/reference/mame/` holds copies of MAME files. Those
   are BSD-3-Clause; see `tools/reference/mame/LICENSE`. `tools/reference/ymfm/` holds a copy of ymfm
   (BSD-3-Clause; see its `LICENSE`).

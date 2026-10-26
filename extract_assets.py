@@ -21,6 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "tools"))
+sys.path.insert(0, str(ROOT / "tools" / "core"))
 import asset_formats  # noqa: E402
 import data_formats  # noqa: E402
 import sonic_rom  # noqa: E402
