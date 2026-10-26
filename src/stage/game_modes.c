@@ -3,7 +3,7 @@
  *    Description: the game modes (run_game_mode) and what a stage frame runs: starting a stage, layer blending, the stage clear check, the player summary, stage slots and events, restart points, the player objects, the GAME OVER banner and the demo prompt
  *    Version:     0.1.0
  *    Created:     12-10-2026
- *    Modified:    25-10-2026
+ *    Modified:    26-10-2026
  *    Author:      Sebastian Toyos
  *
  *    SegaSonic The Hedgehog (arcade, Sega System 32): the game's V60 program decompiled into C by
@@ -452,7 +452,7 @@ void game_mode_continue(uint32_t position, uint32_t *p_speed_value, uint32_t *p_
 			text = continue_text_ADDRESS;
 			erase_text(text);
 			cell = 0u;
-			*p_list_cursor = 0x25C4u;
+			*p_list_cursor = continue_text_ADDRESS + 0x2u;
 			text_position = TEXT_CELL(24, 14);
 			erase_text_here(cell, p_list_cursor, &text_position);
 			*p_speed_value = (*p_speed_value & 0xFFFF0000u) | (speed_value & 0xFFFFu);
@@ -487,7 +487,7 @@ void game_mode_continue(uint32_t position, uint32_t *p_speed_value, uint32_t *p_
 		text = continue_text_ADDRESS;
 		erase_text(text);
 		cell = 0u;
-		*p_list_cursor = 0x25C4u;
+		*p_list_cursor = continue_text_ADDRESS + 0x2u;
 		text_position = TEXT_CELL(24, 14);
 		erase_text_here(cell, p_list_cursor, &text_position);
 		*p_speed_value = (*p_speed_value & 0xFFFF0000u) | (speed_value & 0xFFFFu);
@@ -512,7 +512,7 @@ void game_mode_continue(uint32_t position, uint32_t *p_speed_value, uint32_t *p_
 		text = continue_text_ADDRESS;
 		erase_text(text);
 		cell = 0u;
-		*p_list_cursor = 0x25C4u;
+		*p_list_cursor = continue_text_ADDRESS + 0x2u;
 		text_position = TEXT_CELL(24, 14);
 		erase_text_here(cell, p_list_cursor, &text_position);
 		*p_speed_value = (*p_speed_value & 0xFFFF0000u) | (speed_value & 0xFFFFu);
@@ -536,7 +536,7 @@ void game_mode_continue(uint32_t position, uint32_t *p_speed_value, uint32_t *p_
 				text = continue_text_ADDRESS;
 				erase_text(text);
 				cell = 0u;
-				*p_list_cursor = 0x25C4u;
+				*p_list_cursor = continue_text_ADDRESS + 0x2u;
 				text_position = TEXT_CELL(24, 14);
 				erase_text_here(cell, p_list_cursor, &text_position);
 			}
@@ -557,7 +557,7 @@ void game_mode_continue(uint32_t position, uint32_t *p_speed_value, uint32_t *p_
 		text = continue_text_ADDRESS;
 		erase_text(text);
 		cell = 0u;
-		*p_list_cursor = 0x25C4u;
+		*p_list_cursor = continue_text_ADDRESS + 0x2u;
 		text_position = TEXT_CELL(24, 14);
 		erase_text_here(cell, p_list_cursor, &text_position);
 		*p_speed_value = (*p_speed_value & 0xFFFF0000u) | (speed_value & 0xFFFFu);

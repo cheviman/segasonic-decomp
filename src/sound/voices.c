@@ -3,7 +3,7 @@
  *    Description: the voices: the RF5C68's sample voices (starting a sample, refilling its pages, stopping it) and the YM3438's FM voices (note off, release with the sustain pedal, volumes, patches, the vibrato)
  *    Version:     0.1.0
  *    Created:     13-10-2026
- *    Modified:    25-10-2026
+ *    Modified:    26-10-2026
  *    Author:      Sebastian Toyos
  *
  *    SegaSonic The Hedgehog (arcade, Sega System 32): the Z80 sound program decompiled into C by
@@ -342,7 +342,7 @@ void stop_pcm_voice(uint16_t voice)
    held already, is stopped (stop_fm_voice), or held (flags bit 1) while the channel's sustain pedal is
    down. de, saved_channel and a come back as the original's registers (&channel_controls[channel] after
    a match): CC 0x7B/0x80's loop walks on from them. */
-void fm_note_off(uint16_t *p_de, uint16_t *p_saved_channel, uint8_t *p_a)
+void fm_note_off(uint16_t *p_voice_size, uint16_t *p_saved_channel, uint8_t *p_channel)
 {
 	uint16_t saved_channel = (uint16_t)*p_saved_channel;
 	uint8_t channel = 0, flags = 0, voices_left = 0;
@@ -380,9 +380,9 @@ void fm_note_off(uint16_t *p_de, uint16_t *p_saved_channel, uint8_t *p_a)
 		if (voices_left == 0u)
 		{
 			z80_block(10);
-			*p_de = voice_size;
+			*p_voice_size = voice_size;
 			*p_saved_channel = saved_channel;
-			*p_a = channel;
+			*p_channel = channel;
 			return;
 		}
 		z80_cycles(5);
@@ -398,9 +398,9 @@ void fm_note_off(uint16_t *p_de, uint16_t *p_saved_channel, uint8_t *p_a)
 		z80_block(33);
 		FM_VOICE(voice)->flags |= 2u;
 	}
-	*p_de = voice_size;
+	*p_voice_size = voice_size;
 	*p_saved_channel = saved_channel;
-	*p_a = channel;
+	*p_channel = channel;
 }
 
 /* Frees the fm_voice voice (flags, midi_channel and its vibrato state 0) and keys its YM3438 channel off

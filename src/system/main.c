@@ -3,7 +3,7 @@
  *    Description: the machine's main program: power-on and boot, the frame loop, the attract mode and the system modes, the frame wait and the controls, the interrupt handlers, the reset vector
  *    Version:     0.1.0
  *    Created:     12-10-2026
- *    Modified:    25-10-2026
+ *    Modified:    26-10-2026
  *    Author:      Sebastian Toyos
  *
  *    SegaSonic The Hedgehog (arcade, Sega System 32): the game's V60 program decompiled into C by
@@ -18,7 +18,7 @@
 void boot(void)
 {
 	uint32_t bytes_left = 0, count = 0, cursor = 0, dest = 0, height = 0, ignored = 0, ignored_2 = 0, ignored_3 = 0, ignored_4 = 0, input_cursor = 0, pairs_left = 0, pressed = 0, released = 0, scale = 0, source = 0, trackball_cursor = 0, trackball_port = 0;
-	uint32_t stack_100004 = 0;
+	uint32_t initial_psw = 0;
 	uint32_t psw = 0;
 
 	load_privileged(5u, vector_table_ADDRESS);
@@ -44,8 +44,8 @@ void boot(void)
 		bytes_left--;
 		source++;
 	} while (bytes_left != 0u);
-	stack_100004 = 0u;
-	psw = stack_100004;
+	initial_psw = 0u;
+	psw = initial_psw;
 	psw_write(psw);
 	load_privileged(2u, 0x20FE00u);
 	load_privileged(3u, 0x20FE00u);
@@ -627,7 +627,7 @@ void init_system(uint32_t *p_polynomial, uint32_t *p_words_left)
    mixer shadows from mixer_text_blend, which irq_vblank_start copies out every frame. */
 void init_mixer(void)
 {
-	move_halfwords_backward(MIXER_REGISTERS, 0x5BCu, 0x28u);
+	move_halfwords_backward(MIXER_REGISTERS, mixer_defaults_ADDRESS, 0x28u);
 	move_halfwords_backward(mixer_text_blend_ADDRESS, 0x5ECu, 0x10u);
 }
 

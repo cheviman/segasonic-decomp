@@ -15997,3 +15997,7 @@ comment get_window_outcode Swaps the line's two points (start_x/_y with end_x/_y
 comment plot_circle_point_4bpp Unused: one of draw_circle's points at 4 bpp: the top two bits of current_player's mask, shifted out: the first plots, the second plots only inside the window (r14, window_top, _right, _bottom); the byte at (point_y << 8) + (point_x >> 1) + bitmap_base gets high_color in its high nibble at odd x, low_color in its low one at even x.
 comment plot_circle_point_8bpp Unused: one of draw_circle's points at 8 bpp: the same test of current_player's top two bits, then color at (point_y << 9) + point_x + bitmap_base.
 comment save_bitmap_rect Unused: meant to save the rectangle left, top to right, bottom of the bitmap (corners sorted) into buffer: a saved_bitmap_rect header (width in bits, * 8 at 8 bpp, * 4 kept to a byte at 4 bpp, and rows), then each row. The row copy is an instruction the V60 cannot run, so the C stops at invalid_operand on the first row.
+
+# ======== stack slots ========
+local boot 000043 s100004 initial_psw                    # 0, written to the stack and loaded into the PSW
+local spawn_grate_step_debris 08BC09 s4 saved_record     # the piece's record, 8 bytes on, kept across next_random

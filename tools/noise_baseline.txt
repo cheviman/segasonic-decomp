@@ -7,6 +7,7 @@ rom_names 0
 unk_fields 8
 register_names 0
 temp_names 0
+stack_names 0
 context_registers 402
 var_fields 14
 mem_access 1199

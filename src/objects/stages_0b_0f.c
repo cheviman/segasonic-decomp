@@ -3,7 +3,7 @@
  *    Description: the objects of stages B to F: the chasers (the brick wall that bursts, the biting head, the fire front) and the flames that spread ahead of it, the spike gate, the falling grates, the rising saws and the steps they cut, the puffs, the checkered pad, the static triangle, the railing
  *    Version:     0.1.0
  *    Created:     12-10-2026
- *    Modified:    25-10-2026
+ *    Modified:    26-10-2026
  *    Author:      Sebastian Toyos
  *
  *    SegaSonic The Hedgehog (arcade, Sega System 32): the game's V60 program decompiled into C by
@@ -2243,7 +2243,7 @@ void grate_step_update(void)
 void spawn_grate_step_debris(void)
 {
 	uint32_t ignored = 0, ignored_2 = 0, ignored_3 = 0, object = 0, random_value = 0, record = 0;
-	uint32_t stack_4 = 0;
+	uint32_t saved_record = 0;
 	uint16_t debris_left = 0;
 
 	record = grate_step_debris_ADDRESS;
@@ -2273,9 +2273,9 @@ void spawn_grate_step_debris(void)
 		OBJECT(object)->speed_x = (uint32_t)GRATE_DEBRIS_PIECE(record - 0x4u)->speed_x << 8;
 		record += 2u;
 		OBJECT(object)->speed_z = (uint32_t)GRATE_DEBRIS_PIECE(record - 0x6u)->speed_z << 8;
-		stack_4 = record + 2u;
+		saved_record = record + 2u;
 		next_random(&random_value, &ignored_2, &ignored_3);
-		record = stack_4;
+		record = saved_record;
 		OBJECT(object)->speed_x += (int16_t)random_value;
 		random_value = (int32_t)random_value >> 16;
 		OBJECT(object)->speed_z += random_value;
