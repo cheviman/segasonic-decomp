@@ -342,13 +342,16 @@ tools/core/             arcade-decomp, the decompiler and analysis tools shared 
                         signatures, conditions, expressions, structure and the control variables that
                         take the gotos out, memory and pointer types, variables, the C printer),
                         decompile_sound.py (the sound program, with the same decompiler set up for the
-                        Z80), check_structure.py, noise_report.py, asset_formats.py (the board's data
-                        formats to PNG and WAV and back) and data_formats.py (the data as files and back,
-                        cut where symbols.txt and sound_symbols.txt name a place, the code left out)
+                        Z80), check_structure.py, noise_report.py, check_scenarios.py, verify_rom.py,
+                        render_state.py, memory_census.py, asset_formats.py (the board's data formats to
+                        PNG and WAV and back), data_formats.py (the data as files and back, cut where
+                        symbols.txt and sound_symbols.txt name a place, the code left out) and
+                        formats/common.py (the data formats' helpers)
 tools/game_profile.py   what the core needs to know of SegaSonic: its ROM set (sonic_rom.py), its
                         structures, the registers the program shares, its board's sound chip
-tools/formats/          the data formats, a module a family (palettes, scripts, animations, stages, texts
-                        and the rest; the sound driver's tables and the music, as MIDI files)
+tools/formats/          SegaSonic's data formats, a module a family (palettes, scripts, animations, stages,
+                        texts and the rest; the sound driver's tables and the music, as MIDI files), in
+                        the core's formats package (tools/core/formats/common.py)
 tools/palette_census.py runs the scenarios with the sprite and tile censuses on (sonic_game_headless
                         --sprite-census, --tile-census) and finds each frame's and tile's palette in the
                         program ROM: writes sprite_palettes.json and tile_palettes.json

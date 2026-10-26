@@ -31,6 +31,7 @@ ROOT = Path(__file__).resolve().parents[1]
 GAME = "SegaSonic The Hedgehog (arcade, Sega System 32)"      # in the generated files' headers
 ROM_SET_TITLE = "SegaSonic The Hedgehog (sonic, Japan rev. C)"
 CPU = "V60"
+BINARY = "sonic"                             # its executables: sonic_game_headless, sonic_headless
 GUARD = "SONIC"                              # the generated headers' include guards: SONIC_GAME_H...
 
 # the program's structures, registers and variables (decompiler/pointers.py, memory.py, signatures.py)

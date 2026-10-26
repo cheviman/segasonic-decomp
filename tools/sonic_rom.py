@@ -15,6 +15,8 @@ import zipfile
 import zlib
 from pathlib import Path
 
+SET_NAME = "sonic"    # MAME's name for the set
+
 # MAME name -> (crc32, sha1, size)
 ROM_FILES = {
     "epr-15787c.ic17": ("25e3c27e", "8f173cd5c7c817dcccdcad9be5781cfaa081d73e", 0x020000),
