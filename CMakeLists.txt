@@ -66,15 +66,17 @@ add_library(sonic_data STATIC runtime/src/game_data.c runtime/src/rom_set.c runt
 target_include_directories(sonic_data PUBLIC runtime/include)
 if(SONIC_ROM_FILES AND Python3_FOUND)
 	file(GLOB_RECURSE SONIC_ASSET_FILES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/assets/*)
-	file(GLOB SONIC_FORMAT_TOOLS CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/tools/formats/*.py)
+	# The formats are SegaSonic's (tools/formats) and the core's (tools/core, the arcade-decomp submodule)
+	file(GLOB SONIC_FORMAT_TOOLS CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/tools/formats/*.py
+		${CMAKE_SOURCE_DIR}/tools/core/formats/*.py)
 	set(SONIC_ASSETS_PACK ${SONIC_BIN_DIR}/segasonic.assets)
 	add_custom_command(OUTPUT ${SONIC_ASSETS_PACK}
 		COMMAND Python3::Interpreter ${CMAKE_SOURCE_DIR}/extract_assets.py ${SONIC_ROM}
 		COMMAND Python3::Interpreter ${CMAKE_SOURCE_DIR}/tools/make_pack.py ${SONIC_ASSETS_PACK}
 		DEPENDS ${SONIC_ROM_FILES} ${SONIC_ASSET_FILES} ${SONIC_FORMAT_TOOLS} ${CMAKE_SOURCE_DIR}/assets.json
 			${CMAKE_SOURCE_DIR}/extract_assets.py ${CMAKE_SOURCE_DIR}/tools/make_pack.py
-			${CMAKE_SOURCE_DIR}/tools/sonic_rom.py ${CMAKE_SOURCE_DIR}/tools/asset_formats.py
-			${CMAKE_SOURCE_DIR}/tools/data_formats.py
+			${CMAKE_SOURCE_DIR}/tools/sonic_rom.py ${CMAKE_SOURCE_DIR}/tools/core/asset_formats.py
+			${CMAKE_SOURCE_DIR}/tools/core/data_formats.py
 		COMMENT "Taking the assets out of the ROM set and packing them for the game")
 	add_custom_target(sonic_assets ALL DEPENDS ${SONIC_ASSETS_PACK})
 	add_dependencies(sonic_data sonic_assets)
