@@ -3,6 +3,9 @@
 A reconstruction of Sega's 1993 arcade game *SegaSonic The Hedgehog* (Sega System 32) into
 platform-agnostic C — not an emulator.
 
+This repository stays the faithful reference: the game to play, built on it, goes on in
+[segasonic-port](https://github.com/cheviman/segasonic-port).
+
 **Apart from the screenshots on this page, this repository contains no game data.** The game's program
 is here as C, decompiled from the original machine code (`src/`); as with
 [n64decomp/sm64](https://github.com/n64decomp/sm64), you bring your own ROM for everything else: the
