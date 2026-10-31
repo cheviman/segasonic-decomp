@@ -1,8 +1,7 @@
 # SegaSonic The Hedgehog — native port
 
 A reconstruction of Sega's 1993 arcade game *SegaSonic The Hedgehog* (Sega System 32) into
-platform-agnostic C — not an emulator — with ports to PC, Nintendo Switch and Linux ARM
-handhelds (Anbernic RG40XX) on top of it.
+platform-agnostic C — not an emulator.
 
 **Apart from the screenshots on this page, this repository contains no game data.** The game's program
 is here as C, decompiled from the original machine code (`src/`); as with
@@ -108,12 +107,6 @@ decompiled game plays the scenarios of <code>tests/controls/</code>.</sub></p>
 - [x] PC port (`ports/sdl2/`): the game in a window, with its sound, the mouse, the keyboard and game
       controllers, on SDL2; its settings in `sonic.ini`. Built and played on Windows; SDL2's own packages
       should build it on Linux and macOS (not tried yet)
-- [ ] Ports, in a repository of their own built on this one (`segasonic-port`), so that this one stays the
-      faithful reference: Windows and macOS, Android, Nintendo Switch and Linux ARM handhelds (Anbernic);
-      released as downloads with no game data in them (the first run takes the player's own ROM set and
-      extracts the assets), and listed in [Quiver Launcher](https://quiverlauncher.com)
-- [ ] A console version, there too, in a layer of its own beside the arcade one, which stays as it is: no
-      coins, a settings menu in the game's own style, higher resolution
 
 ## Getting started
 
